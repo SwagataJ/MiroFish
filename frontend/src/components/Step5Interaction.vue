@@ -714,7 +714,7 @@ const sendToAgent = async (message) => {
     throw new Error(t('step5.selectAgentFirst'))
   }
   
-  addLog(t('step5.sentToAgent', { name: selectedAgent.value.username, message: message.substring(0, 50) }))
+  addLog(t('step5.sentToAgent', { name: selectedAgent.value?.username ?? '', message: message.substring(0, 50) }))
   
   // Build prompt with chat history
   let prompt = message
@@ -764,7 +764,7 @@ const sendToAgent = async (message) => {
         content: responseContent,
         timestamp: new Date().toISOString()
       })
-      addLog(t('step5.agentReplied', { name: selectedAgent.value.username }))
+      addLog(t('step5.agentReplied', { name: selectedAgent.value?.username ?? '' }))
     } else {
       throw new Error(t('step5.noResponseData'))
     }
