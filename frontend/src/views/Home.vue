@@ -13,24 +13,24 @@
 
     <div class="main-content">
       <!-- Hero section -->
-      <section class=”hero-section”>
-        <div class=”hero-left”>
-          <div class=”tag-row”>
-            <span class=”orange-tag”>{{ $t('home.tagline') }}</span>
-            <span class=”version-text”>{{ $t('home.version') }}</span>
+      <section class="hero-section">
+        <div class="hero-left">
+          <div class="tag-row">
+            <span class="orange-tag">{{ $t('home.tagline') }}</span>
+            <span class="version-text">{{ $t('home.version') }}</span>
           </div>
 
-          <h1 class=”main-title”>
+          <h1 class="main-title">
             {{ $t('home.mainTitleLine1') }}<br>
-            <span class=”gradient-text”>{{ $t('home.mainTitleLine2') }}</span>
+            <span class="gradient-text">{{ $t('home.mainTitleLine2') }}</span>
           </h1>
 
-          <div class=”hero-desc”>
+          <div class="hero-desc">
             <p>
-              <span>{{ $t('home.descPart1') }}</span><span class=”highlight-bold”>{{ $t('home.descBoldMiroFish') }}</span><span>{{ $t('home.descPart2') }}</span><span class=”highlight-orange”>{{ $t('home.descMillionAgents') }}</span><span>{{ $t('home.descPart3') }}</span><span class=”highlight-code”>{{ $t('home.descOptimalSolution') }}</span><span>{{ $t('home.descPart4') }}</span>
+              <span>{{ $t('home.descPart1') }}</span><span class="highlight-bold">{{ $t('home.descBoldMiroFish') }}</span><span>{{ $t('home.descPart2') }}</span><span class="highlight-orange">{{ $t('home.descMillionAgents') }}</span><span>{{ $t('home.descPart3') }}</span><span class="highlight-code">{{ $t('home.descOptimalSolution') }}</span><span>{{ $t('home.descPart4') }}</span>
             </p>
-            <p class=”slogan-text”>
-              {{ $t('home.slogan') }}<span class=”blinking-cursor”>_</span>
+            <p class="slogan-text">
+              {{ $t('home.slogan') }}<span class="blinking-cursor">_</span>
             </p>
           </div>
            
@@ -388,8 +388,10 @@ const startSimulation = () => {
 .hero-section {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 80px;
   position: relative;
+  min-height: 500px;
 }
 
 .hero-left {
@@ -503,8 +505,9 @@ const startSimulation = () => {
   flex: 0.8;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-end;
+  gap: 20px;
 }
 
 .logo-container {
@@ -872,23 +875,32 @@ const startSimulation = () => {
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+@media (max-width: 768px) {
   .dashboard-section {
     flex-direction: column;
   }
-  
+
   .hero-section {
     flex-direction: column;
+    min-height: auto;
   }
-  
+
   .hero-left {
     padding-right: 0;
     margin-bottom: 40px;
   }
-  
+
+  .hero-right {
+    align-items: center;
+  }
+
   .hero-logo {
-    max-width: 200px;
+    max-width: 280px;
     margin-bottom: 20px;
+  }
+
+  .main-title {
+    font-size: 2.8rem;
   }
 }
 </style>
