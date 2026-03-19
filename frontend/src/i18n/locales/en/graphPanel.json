@@ -1,0 +1,8 @@
+{
+  "refreshGraph": "Refresh graph",
+  "maximizeRestore": "Maximize/Restore",
+  "realtimeUpdating": "GraphRAG long/short-term memory updating in real time",
+  "buildingUpdating": "Updating in real time...",
+  "pendingContent": "Some content is still being processed. We recommend refreshing the graph manually later.",
+  "closeHint": "Close hint"
+}

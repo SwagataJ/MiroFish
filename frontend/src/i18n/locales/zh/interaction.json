@@ -1,0 +1,17 @@
+{
+  "title": "互动视图",
+  "loading": "加载中...",
+  "viewMode": {
+    "graph": "图谱",
+    "split": "双栏",
+    "workbench": "工作台"
+  },
+  "stepLabel": "深度互动",
+  "logInit": "InteractionView 初始化",
+  "logLoadReportData": "加载报告数据: {id}",
+  "logProjectLoaded": "项目加载成功: {id}",
+  "logGetReportFailed": "获取报告信息失败: {error}",
+  "logLoadError": "加载异常: {error}",
+  "logGraphLoaded": "图谱数据加载成功",
+  "logGraphFailed": "图谱加载失败: {error}"
+}

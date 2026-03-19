@@ -1,0 +1,13 @@
+{
+  "graph": "图谱",
+  "split": "双栏",
+  "workbench": "工作台",
+  "step1": "图谱构建",
+  "step2": "环境搭建",
+  "step3": "开始模拟",
+  "step4": "报告生成",
+  "step5": "深度互动",
+  "enterStep": "进入 Step {step}: {name}",
+  "customRounds": "自定义模拟轮数: {rounds} 轮",
+  "returnStep": "返回 Step {step}: {name}"
+}

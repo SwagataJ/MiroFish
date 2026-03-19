@@ -1,0 +1,22 @@
+{
+  "ontologyGeneration": "Ontology Generation",
+  "completed": "Completed",
+  "generating": "Generating",
+  "waiting": "Waiting",
+  "ontologyDesc": "LLM analyzes document content and simulation requirements, extracts reality seeds, and auto-generates appropriate ontology structure",
+  "analyzingDocs": "Analyzing documents...",
+  "graphRAGBuild": "GraphRAG Construction",
+  "graphRAGDesc": "Based on the generated ontology, documents are auto-chunked and Zep builds the knowledge graph, extracting entities and relations to form temporal memory and community summaries",
+  "entityNodes": "Entity Nodes",
+  "relationEdges": "Relation Edges",
+  "schemaTypes": "Schema Types",
+  "buildComplete": "Build Complete",
+  "inProgress": "In Progress",
+  "completeDesc": "Graph construction is complete. Proceed to the next step for simulation environment setup.",
+  "enterEnvSetup": "Enter Environment Setup",
+  "creating": "Creating...",
+  "missingProjectInfo": "Missing project or graph information",
+  "createSimFailed": "Create simulation failed",
+  "createSimError": "Create simulation error",
+  "unknownError": "Unknown error"
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Interaction View",
+  "loading": "Loading...",
+  "viewMode": {
+    "graph": "Graph",
+    "split": "Split",
+    "workbench": "Workbench"
+  },
+  "stepLabel": "Deep Interaction",
+  "logInit": "InteractionView initialized",
+  "logLoadReportData": "Loading report data: {id}",
+  "logProjectLoaded": "Project loaded: {id}",
+  "logGetReportFailed": "Failed to get report info: {error}",
+  "logLoadError": "Load error: {error}",
+  "logGraphLoaded": "Graph data loaded",
+  "logGraphFailed": "Graph load failed: {error}"
+}

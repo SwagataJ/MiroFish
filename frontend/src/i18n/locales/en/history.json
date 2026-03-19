@@ -1,0 +1,20 @@
+{
+  "sectionTitle": "Simulation History",
+  "moreFiles": "+{count} files",
+  "noFiles": "No files",
+  "untitledSim": "Untitled Simulation",
+  "notStarted": "Not started",
+  "roundsFormat": "{current}/{total} rounds",
+  "unknownFile": "Unknown file",
+  "loading": "Loading...",
+  "graphBuild": "Graph Build",
+  "envSetup": "Env Setup",
+  "analysisReport": "Analysis Report",
+  "simRequirement": "Simulation Requirement",
+  "none": "None",
+  "associatedFiles": "Associated Files",
+  "noAssociatedFiles": "No associated files",
+  "simPlayback": "Simulation Playback",
+  "playbackHint": "Step3 \"Start Simulation\" and Step5 \"Deep Interaction\" must be started while running and do not support history playback",
+  "loadFailed": "Failed to load history"
+}

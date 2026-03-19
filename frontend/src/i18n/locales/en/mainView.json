@@ -1,0 +1,13 @@
+{
+  "graph": "Graph",
+  "split": "Split",
+  "workbench": "Workbench",
+  "step1": "Graph Building",
+  "step2": "Environment Setup",
+  "step3": "Start Simulation",
+  "step4": "Report Generation",
+  "step5": "Deep Interaction",
+  "enterStep": "Entering Step {step}: {name}",
+  "customRounds": "Custom simulation rounds: {rounds} rounds",
+  "returnStep": "Returning to Step {step}: {name}"
+}

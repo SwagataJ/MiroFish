@@ -1,0 +1,8 @@
+{
+  "refreshGraph": "刷新图谱",
+  "maximizeRestore": "最大化/还原",
+  "realtimeUpdating": "GraphRAG长短期记忆实时更新中",
+  "buildingUpdating": "实时更新中...",
+  "pendingContent": "还有少量内容处理中，建议稍后手动刷新图谱",
+  "closeHint": "关闭提示"
+}
