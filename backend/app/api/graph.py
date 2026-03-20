@@ -130,6 +130,7 @@ def generate_ontology():
         simulation_requirement: Simulation requirement description (required)
         project_name: Project name (optional)
         additional_context: Additional context (optional)
+        domain: Domain key for grounding (optional, e.g. "fashion_retail")
 
     Returns:
         {
@@ -153,6 +154,7 @@ def generate_ontology():
         simulation_requirement = request.form.get('simulation_requirement', '')
         project_name = request.form.get('project_name', 'Unnamed Project')
         additional_context = request.form.get('additional_context', '')
+        domain = request.form.get('domain', '') or None
 
         logger.debug(f"Project name: {project_name}")
         logger.debug(f"Simulation requirement: {simulation_requirement[:100]}...")
@@ -174,6 +176,8 @@ def generate_ontology():
         # Create project
         project = ProjectManager.create_project(name=project_name)
         project.simulation_requirement = simulation_requirement
+        if domain:
+            project.domain = domain
         logger.info(f"Created project: {project.project_id}")
 
         # Save files and extract text
@@ -213,11 +217,14 @@ def generate_ontology():
 
         # Generate ontology
         logger.info("Calling LLM to generate ontology definition...")
+        if domain:
+            logger.info(f"Domain grounding: {domain}")
         generator = OntologyGenerator()
         ontology = generator.generate(
             document_texts=document_texts,
             simulation_requirement=simulation_requirement,
-            additional_context=additional_context if additional_context else None
+            additional_context=additional_context if additional_context else None,
+            domain=domain
         )
 
         # Save ontology to project

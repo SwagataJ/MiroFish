@@ -21,6 +21,7 @@ from zep_cloud.client import Zep
 from ..config import Config
 from ..utils.logger import get_logger
 from .zep_entity_reader import EntityNode, ZepEntityReader
+from .domain_config import get_domain_config
 
 logger = get_logger('mirofish.oasis_profile')
 
@@ -167,23 +168,28 @@ class OasisProfileGenerator:
     
     # Individual entity types (need specific persona)
     INDIVIDUAL_ENTITY_TYPES = [
-        "student", "alumni", "professor", "person", "publicfigure", 
-        "expert", "faculty", "official", "journalist", "activist"
+        "student", "alumni", "professor", "person", "publicfigure",
+        "expert", "faculty", "official", "journalist", "activist",
+        # Fashion retail
+        "designer", "influencer", "celebrity", "consumer", "stylist",
     ]
-    
+
     # Group/institution entity types (need representative persona)
     GROUP_ENTITY_TYPES = [
-        "university", "governmentagency", "organization", "ngo", 
-        "mediaoutlet", "company", "institution", "group", "community"
+        "university", "governmentagency", "organization", "ngo",
+        "mediaoutlet", "company", "institution", "group", "community",
+        # Fashion retail
+        "brand", "retailer", "fashionmagazine", "manufacturer",
     ]
     
     def __init__(
-        self, 
+        self,
         api_key: Optional[str] = None,
         base_url: Optional[str] = None,
         model_name: Optional[str] = None,
         zep_api_key: Optional[str] = None,
-        graph_id: Optional[str] = None
+        graph_id: Optional[str] = None,
+        domain: Optional[str] = None
     ):
         self.api_key = api_key or Config.LLM_API_KEY
         self.base_url = base_url or Config.LLM_BASE_URL
@@ -207,6 +213,21 @@ class OasisProfileGenerator:
                 self.zep_client = Zep(api_key=self.zep_api_key)
             except Exception as e:
                 logger.warning(f"Zep client initialization failed: {e}")
+
+        # Extend entity type lists with any domain-specific types
+        self.domain_config = get_domain_config(domain)
+        if self.domain_config:
+            extra_individual = self.domain_config.get("individual_entity_types", [])
+            extra_group = self.domain_config.get("group_entity_types", [])
+            self._individual_types = list(self.INDIVIDUAL_ENTITY_TYPES) + [
+                t for t in extra_individual if t not in self.INDIVIDUAL_ENTITY_TYPES
+            ]
+            self._group_types = list(self.GROUP_ENTITY_TYPES) + [
+                t for t in extra_group if t not in self.GROUP_ENTITY_TYPES
+            ]
+        else:
+            self._individual_types = list(self.INDIVIDUAL_ENTITY_TYPES)
+            self._group_types = list(self.GROUP_ENTITY_TYPES)
     
     def generate_profile_from_entity(
         self, 
@@ -487,11 +508,11 @@ class OasisProfileGenerator:
     
     def _is_individual_entity(self, entity_type: str) -> bool:
         """Check if this is an individual-type entity"""
-        return entity_type.lower() in self.INDIVIDUAL_ENTITY_TYPES
-    
+        return entity_type.lower() in self._individual_types
+
     def _is_group_entity(self, entity_type: str) -> bool:
         """Check if this is a group/institution-type entity"""
-        return entity_type.lower() in self.GROUP_ENTITY_TYPES
+        return entity_type.lower() in self._group_types
     
     def _generate_profile_with_llm(
         self,

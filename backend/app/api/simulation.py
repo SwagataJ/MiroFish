@@ -1398,21 +1398,22 @@ def generate_profiles():
         entity_types = data.get('entity_types')
         use_llm = data.get('use_llm', True)
         platform = data.get('platform', 'reddit')
-        
+        domain = data.get('domain') or None
+
         reader = ZepEntityReader()
         filtered = reader.filter_defined_entities(
             graph_id=graph_id,
             defined_entity_types=entity_types,
             enrich_with_edges=True
         )
-        
+
         if filtered.filtered_count == 0:
             return jsonify({
                 "success": False,
                 "error": get_text("sim.no_matching_entities")
             }), 400
-        
-        generator = OasisProfileGenerator()
+
+        generator = OasisProfileGenerator(domain=domain)
         profiles = generator.generate_profiles_from_entities(
             entities=filtered.entities,
             use_llm=use_llm

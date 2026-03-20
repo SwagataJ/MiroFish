@@ -6,6 +6,7 @@ Interface 1: Analyze text content and generate entity and relationship type defi
 import json
 from typing import Dict, Any, List, Optional
 from ..utils.llm_client import LLMClient
+from .domain_config import get_domain_config
 
 
 # System prompt for ontology generation
@@ -113,6 +114,9 @@ B. **Specific types (8 types, designed based on text content)**:
 
 ## Entity Type Reference
 
+The following are general-purpose reference types. When a domain is specified,
+domain-specific types will be provided in the user message and should take priority.
+
 **Individual (specific)**:
 - Student: Student
 - Professor: Professor/scholar
@@ -168,7 +172,8 @@ class OntologyGenerator:
         self,
         document_texts: List[str],
         simulation_requirement: str,
-        additional_context: Optional[str] = None
+        additional_context: Optional[str] = None,
+        domain: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Generate ontology definition
@@ -177,15 +182,19 @@ class OntologyGenerator:
             document_texts: List of document texts
             simulation_requirement: Simulation requirement description
             additional_context: Additional context
+            domain: Optional domain key for grounding (e.g. "fashion_retail")
 
         Returns:
             Ontology definition (entity_types, edge_types, etc.)
         """
+        domain_config = get_domain_config(domain)
+
         # Build user message
         user_message = self._build_user_message(
-            document_texts, 
+            document_texts,
             simulation_requirement,
-            additional_context
+            additional_context,
+            domain_config=domain_config
         )
         
         messages = [
@@ -212,22 +221,30 @@ class OntologyGenerator:
         self,
         document_texts: List[str],
         simulation_requirement: str,
-        additional_context: Optional[str]
+        additional_context: Optional[str],
+        domain_config: Optional[Dict[str, Any]] = None
     ) -> str:
         """Build user message"""
 
         # Merge texts
         combined_text = "\n\n---\n\n".join(document_texts)
         original_length = len(combined_text)
-        
+
         # If text exceeds 50,000 characters, truncate (only affects content sent to LLM, not graph construction)
         if len(combined_text) > self.MAX_TEXT_LENGTH_FOR_LLM:
             combined_text = combined_text[:self.MAX_TEXT_LENGTH_FOR_LLM]
             combined_text += f"\n\n...(original text has {original_length} characters; first {self.MAX_TEXT_LENGTH_FOR_LLM} characters extracted for ontology analysis)..."
-        
+
+        # Prepend domain simulation context to the simulation requirement if a domain is set
+        effective_requirement = simulation_requirement
+        if domain_config:
+            domain_ctx = domain_config.get("simulation_context", "")
+            if domain_ctx:
+                effective_requirement = f"{domain_ctx}\n\n{simulation_requirement}"
+
         message = f"""## Simulation Requirement
 
-{simulation_requirement}
+{effective_requirement}
 
 ## Document Content
 
@@ -241,6 +258,24 @@ class OntologyGenerator:
 {additional_context}
 """
 
+        # Inject domain-specific entity/edge type hints when a domain is configured
+        if domain_config:
+            entity_refs = domain_config.get("entity_type_references", "")
+            edge_refs = domain_config.get("edge_type_references", "")
+            domain_display = domain_config.get("display_name", domain_config.get("name", ""))
+
+            if entity_refs or edge_refs:
+                message += f"""
+## Domain: {domain_display}
+
+The simulation is scoped to this domain. **Prioritise the following domain-specific types** over the general reference types in the system prompt.
+
+"""
+            if entity_refs:
+                message += f"### Recommended Entity Types for {domain_display}\n{entity_refs}\n"
+            if edge_refs:
+                message += f"### Recommended Relationship Types for {domain_display}\n{edge_refs}\n"
+
         message += """
 Based on the above content, design entity types and relationship types suitable for social opinion simulation.
 
@@ -251,7 +286,7 @@ Based on the above content, design entity types and relationship types suitable 
 4. All entity types must be real-world actors that can speak publicly — no abstract concepts
 5. Attribute names cannot use reserved words like name, uuid, group_id — use full_name, org_name, etc. instead
 """
-        
+
         return message
     
     def _validate_and_process(self, result: Dict[str, Any]) -> Dict[str, Any]:
